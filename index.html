@@ -2,37 +2,143 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Marketing Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Marketing Landing Page</title>
   <style>
-    body { font-family: Arial; text-align:center; background:#f4f4f4; padding:20px;}
-    h1 { color:#004aad; }
-    .btn { display:block; margin:10px auto; padding:12px; background:#004aad; color:white; text-decoration:none; border-radius:6px; width:250px;}
-    .btn:hover { background:#003580; }
-    iframe { margin:20px auto; display:block; border-radius:8px; }
+    /* --- Reset & Base --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #f4f7f9; color: #333; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+
+    /* --- Container --- */
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; }
+
+    /* --- Header --- */
+    header { padding: 50px 20px; }
+    header h1 { font-size: 2.5em; color: #0078D7; margin-bottom: 10px; }
+    header p { font-size: 1.2em; color: #555; }
+
+    /* --- Form --- */
+    form { margin: 30px 0; display: flex; flex-direction: column; align-items: center; }
+    input[type="text"], input[type="email"] { padding: 15px; margin: 10px 0; width: 100%; max-width: 400px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; }
+    button { padding: 15px 30px; background: #0078D7; color: #fff; border: none; border-radius: 5px; font-size: 1.1em; cursor: pointer; transition: background 0.3s; }
+    button:hover { background: #005fa3; }
+
+    /* --- Section --- */
+    section { padding: 40px 20px; }
+    section h2 { font-size: 2em; margin-bottom: 20px; color: #0078D7; }
+    section p { font-size: 1em; color: #555; margin-bottom: 10px; }
+
+    /* --- Footer --- */
+    footer { padding: 20px; font-size: 0.9em; color: #777; }
+
+    /* --- Floating Chat Button --- */
+    .chat-btn {
+      position: fixed;
+      bottom: -80px; /* Hidden initially */
+      right: 20px;
+      background: #25D366; /* WhatsApp green */
+      color: #fff;
+      border-radius: 50px;
+      padding: 15px 20px;
+      font-size: 1em;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      transition: bottom 0.5s ease, transform 0.2s;
+    }
+    .chat-btn:hover { transform: scale(1.1); }
+    .chat-btn img { width: 24px; height: 24px; margin-right: 10px; }
+
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      header h1 { font-size: 2em; }
+      section h2 { font-size: 1.5em; }
+    }
   </style>
 </head>
 <body>
-  <h1>My Marketing Hub</h1>
 
-  <!-- Outlook Email -->
-  <a class="btn" href="mailto:marketing@domain.com">📧 Email Us (Outlook)</a>
+  <!-- Header -->
+  <header>
+    <h1>Grow Your Business Online</h1>
+    <p>Join our free newsletter and get the latest digital marketing tips straight to your inbox.</p>
+  </header>
 
-  <!-- Excel Online -->
-  <iframe src="EXCEL_ONLINE_PUBLISH_LINK" width="90%" height="400"></iframe>
+  <!-- Lead Capture Form -->
+  <div class="container">
+    <form id="leadForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <button type="submit">Subscribe Now</button>
+    </form>
+  </div>
 
-  <!-- OneDrive Marketing Assets -->
-  <a class="btn" href="ONEDRIVE_SHARE_LINK" target="_blank">☁️ Marketing Assets (OneDrive)</a>
+  <!-- Info Section -->
+  <section class="container">
+    <h2>Why Join Us?</h2>
+    <p>Learn how to grow your online presence, improve your marketing skills, and increase your sales with actionable tips.</p>
+    <p>We share insights on email marketing, social media, SEO, content strategy, and more.</p>
+  </section>
 
-  <!-- Microsoft Forms Lead Capture -->
-  <iframe src="FORMS_EMBED_LINK" width="90%" height="400"></iframe>
+  <!-- Footer -->
+  <footer class="container">
+    &copy; 2025 Your Brand Name. All rights reserved.
+  </footer>
 
-  <!-- Teams Meetings -->
-  <a class="btn" href="TEAMS_MEETING_LINK" target="_blank">📹 Join Teams Meeting</a>
+  <!-- Zapier Webhook Script -->
+  <script>
+    document.getElementById("leadForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      const payload = Object.fromEntries(data);
 
-  <!-- To Do + Calendar -->
-  <a class="btn" href="OUTLOOK_CALENDAR_SHARE_LINK" target="_blank">✅ Calendar & Tasks</a>
+      try {
+        const response = await fetch("https://hooks.zapier.com/hooks/catch/YOUR_ZAPIER_ID/", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" }
+        });
+        if (response.ok) {
+          alert("Thank you! Your info has been sent.");
+          this.reset();
+        } else {
+          alert("Oops! Something went wrong. Please try again.");
+        }
+      } catch (error) {
+        alert("Network error. Please check your connection.");
+        console.error(error);
+      }
+    });
+  </script>
 
-  <!-- Power Automate -->
-  <a class="btn" href="POWER_AUTOMATE_FLOW_LINK" target="_blank">⚡ Automations (Power Automate)</a>
+  <!-- Floating Chat Button -->
+  <div class="chat-btn" id="chatBtn" onclick="openChat()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Chat Icon">
+    Chat with Us
+  </div>
+
+  <script>
+    function openChat() {
+      // --- Option 1: WhatsApp ---
+      // window.open("https://wa.me/YOUR_PHONE_NUMBER", "_blank");
+
+      // --- Option 2: ChatGPT ---
+      window.open("https://chat.openai.com/", "_blank");
+    }
+
+    // --- Scroll-triggered slide-in ---
+    const chatBtn = document.getElementById('chatBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) { // Show after scrolling 200px
+        chatBtn.style.bottom = '20px';
+      } else {
+        chatBtn.style.bottom = '-80px';
+      }
+    });
+  </script>
+
 </body>
 </html>
